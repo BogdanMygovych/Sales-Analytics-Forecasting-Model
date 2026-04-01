@@ -2,10 +2,13 @@
 
 ![Python](https://img.shields.io/badge/Python-3.10%2B-blue)
 ![Status](https://img.shields.io/badge/Status-Portfolio%20Project-success)
-![License](https://img.shields.io/badge/License-MIT-lightgrey)
+
 
 ## 🚀 Overview
 This project delivers an end-to-end retail analytics pipeline using the Kaggle Store Sales dataset to transform raw transactional records into business-ready insights and forecasts. It helps decision-makers understand historical revenue behavior, identify high-impact stores and product families, and estimate future sales trends for planning. The workflow is designed to mirror real-world analytics delivery with clean code, modular ETL, visual storytelling, and actionable recommendations.
+
+## 📊 Dashboard Preview
+![Dashboard](outputs/dashboard/dashboard.png)
 
 ## 🎯 Business Problem
 Retail organizations need dependable forecasting and performance analytics to make smarter operational and strategic decisions.
@@ -36,8 +39,6 @@ The project integrates multiple relational tables:
 4. Analysis  
 5. Forecasting
 
-## 📊 Dashboard Preview
-![Dashboard](outputs/dashboard/dashboard.png)
 
 ## 📈 Key Insights
 - Revenue trends over time:
