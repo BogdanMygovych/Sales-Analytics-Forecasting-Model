@@ -86,9 +86,13 @@ def apply_plot_style() -> None:
     )
 
 
-def format_millions(axis: plt.Axes) -> None:
-    """Format axis labels in millions for better readability."""
-    axis.yaxis.set_major_formatter(ticker.FuncFormatter(lambda x, _: f"{x / 1_000_000:.1f}M"))
+def format_millions(axis: plt.Axes, target_axis: str = "y") -> None:
+    """Format numeric axis labels in millions for better readability."""
+    formatter = ticker.FuncFormatter(lambda x, _: f"{x / 1_000_000:.1f}M")
+    if target_axis == "x":
+        axis.xaxis.set_major_formatter(formatter)
+    else:
+        axis.yaxis.set_major_formatter(formatter)
 
 
 def standardize_columns(df: pd.DataFrame) -> pd.DataFrame:
@@ -349,7 +353,7 @@ def create_visuals(
     axis.set_title("Top Product Families by Sales")
     axis.set_xlabel("Sales")
     axis.set_ylabel("Product Family")
-    format_millions(axis)
+    format_millions(axis, target_axis="x")
     fig.tight_layout()
     fig.savefig(CHARTS_DIR / "sales_by_family.png", dpi=170)
     plt.close(fig)
@@ -372,45 +376,50 @@ def create_visuals(
     fig.savefig(CHARTS_DIR / "forecast.png", dpi=170)
     plt.close(fig)
 
-    # Combined executive-style dashboard.
-    fig, axes = plt.subplots(2, 2, figsize=(18, 10), constrained_layout=True)
-    fig.suptitle("Retail Sales Analytics Dashboard", fontsize=22, fontweight="bold", color="#0F172A")
+    # Combined executive-style dashboard with tighter framing for a closer preview.
+    fig, axes = plt.subplots(2, 2, figsize=(16, 10), constrained_layout=True)
+    fig.set_constrained_layout_pads(w_pad=0.02, h_pad=0.02, wspace=0.03, hspace=0.04)
+    fig.suptitle("Retail Sales Analytics Dashboard", fontsize=26, fontweight="bold", color="#0F172A")
 
     axes[0, 0].plot(daily_sales["date"], daily_sales["sales"], color=PALETTE["blue"], alpha=0.25, linewidth=1.2)
     axes[0, 0].plot(daily_sales["date"], rolling_30, color=PALETTE["teal"], linewidth=2.2)
-    axes[0, 0].set_title("Sales Trend Over Time")
+    axes[0, 0].set_title("Sales Trend Over Time", fontsize=18)
     axes[0, 0].set_xlabel("Date")
     axes[0, 0].set_ylabel("Sales")
+    axes[0, 0].tick_params(axis="both", labelsize=12)
     format_millions(axes[0, 0])
 
     top_12_stores = sales_by_store.head(12)
     top_store_colors = plt.cm.coolwarm(np.linspace(0.1, 0.95, len(top_12_stores)))
     axes[0, 1].bar(top_12_stores["store_nbr"].astype(str), top_12_stores["sales"], color=top_store_colors)
-    axes[0, 1].set_title("Top 12 Stores by Sales")
+    axes[0, 1].set_title("Top 12 Stores by Sales", fontsize=18)
     axes[0, 1].set_xlabel("Store")
     axes[0, 1].set_ylabel("Sales")
-    axes[0, 1].tick_params(axis="x", rotation=35)
+    axes[0, 1].tick_params(axis="x", rotation=35, labelsize=12)
+    axes[0, 1].tick_params(axis="y", labelsize=12)
     format_millions(axes[0, 1])
 
     top_10_families = sales_by_family.head(10).iloc[::-1]
     top_family_colors = plt.cm.magma(np.linspace(0.15, 0.9, len(top_10_families)))
     axes[1, 0].barh(top_10_families["family"], top_10_families["sales"], color=top_family_colors)
-    axes[1, 0].set_title("Top 10 Product Families")
+    axes[1, 0].set_title("Top 10 Product Families", fontsize=18)
     axes[1, 0].set_xlabel("Sales")
     axes[1, 0].set_ylabel("Family")
-    format_millions(axes[1, 0])
+    axes[1, 0].tick_params(axis="both", labelsize=12)
+    format_millions(axes[1, 0], target_axis="x")
 
     axes[1, 1].plot(history["date"], history["actual_sales"], color=PALETTE["blue"], linewidth=1.5, label="Actual")
     axes[1, 1].plot(forecast_df["date"], forecast_df["predicted_sales"], color=PALETTE["orange"], linestyle="--", linewidth=2.2, label="Predicted")
     if not future.empty:
         axes[1, 1].axvspan(future["date"].min(), future["date"].max(), color=PALETTE["orange"], alpha=0.08)
-    axes[1, 1].set_title("Forecast: Actual vs Predicted")
+    axes[1, 1].set_title("Forecast: Actual vs Predicted", fontsize=18)
     axes[1, 1].set_xlabel("Date")
     axes[1, 1].set_ylabel("Sales")
+    axes[1, 1].tick_params(axis="both", labelsize=12)
     format_millions(axes[1, 1])
-    axes[1, 1].legend(loc="upper left")
+    axes[1, 1].legend(loc="upper left", fontsize=11)
 
-    fig.savefig(DASHBOARD_DIR / "dashboard.png", dpi=180)
+    fig.savefig(DASHBOARD_DIR / "dashboard.png", dpi=220, bbox_inches="tight", pad_inches=0.08)
     plt.close(fig)
 
 
