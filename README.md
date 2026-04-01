@@ -1,81 +1,106 @@
-# Retail Sales Forecasting & Analytics
+# 📊 Sales Analytics & Forecasting Model
 
-## Overview
-This project delivers an end-to-end retail analytics workflow using the Kaggle Store Sales dataset. It covers data ingestion, cleaning, feature engineering, multi-table joins, KPI analysis, visual reporting outputs, and a 30-day sales forecast. The result is a portfolio-ready analytics project that can be extended into business intelligence dashboards and operational forecasting pipelines.
+![Python](https://img.shields.io/badge/Python-3.10%2B-blue)
+![Status](https://img.shields.io/badge/Status-Portfolio%20Project-success)
+![License](https://img.shields.io/badge/License-MIT-lightgrey)
 
-## Tools & Technology
-- Python: pandas, numpy, matplotlib
-- SQL: aggregate and trend analysis queries
-- Power BI: recommended for interactive dashboarding on top of prepared outputs
+## 🚀 Overview
+This project delivers an end-to-end retail analytics pipeline using the Kaggle Store Sales dataset to transform raw transactional records into business-ready insights and forecasts. It helps decision-makers understand historical revenue behavior, identify high-impact stores and product families, and estimate future sales trends for planning. The workflow is designed to mirror real-world analytics delivery with clean code, modular ETL, visual storytelling, and actionable recommendations.
 
-## Project Workflow
-1. Load source datasets from `data/`:
-   - `train.csv`
-   - `stores.csv`
-   - `transactions.csv`
-   - `oil.csv`
-   - `holidays_events.csv`
-2. Standardize and clean data:
-   - normalize column names to snake_case
-   - convert date columns to datetime
-   - handle missing values and remove invalid rows
-3. Engineer time-based features:
-   - `year`, `month`, `day`, `day_of_week`
-4. Merge datasets for unified analytics modeling:
-   - train + stores on `store_nbr`
-   - train + transactions on `date` + `store_nbr`
-   - train + oil on `date`
-5. Compute core analytics:
-   - total sales
-   - sales by month
-   - sales by store
-   - sales by product family
-   - top-performing stores
-6. Generate charts in `outputs/charts/`.
-7. Run a simple 30-day forecasting model and save actual vs predicted results.
-8. Save prepared dataset to `data/cleaned_retail_data.csv`.
+## 🎯 Business Problem
+Retail organizations need dependable forecasting and performance analytics to make smarter operational and strategic decisions.
 
-## Forecasting
-The pipeline uses a simple linear trend regression approach on aggregated daily sales:
-- Input: daily total sales
-- Output: historical fitted values + 30-day future predictions
-- Deliverables:
-  - `outputs/charts/forecast.png`
-  - `outputs/forecast_actual_vs_predicted.csv`
+- Why forecasting matters:
+  - Improves inventory planning and reduces stockouts/overstock risk.
+  - Supports staffing and promotion timing around expected demand.
+  - Enables earlier intervention when sales trajectories weaken.
+- What decisions this supports:
+  - Which stores should receive priority investment.
+  - Which product categories should be promoted or optimized.
+  - How monthly and daily sales trends should inform commercial planning.
 
-This baseline model is intentionally lightweight and transparent, making it suitable as a starting point for stronger models such as Prophet, ARIMA, or gradient boosting.
+## 📂 Dataset
+Source: Kaggle Store Sales - Time Series Forecasting
 
-## Key Insights (Expected)
-- Sales often follow strong weekly and monthly seasonality patterns.
-- Store-level performance varies significantly, with top stores driving a disproportionate share of revenue.
-- Product family contribution is uneven, highlighting category concentration opportunities.
-- External factors such as transactions volume and oil price can provide additional explanatory context for demand shifts.
+The project integrates multiple relational tables:
+- `train.csv`: historical daily sales and promotions
+- `stores.csv`: store metadata (city, type, cluster)
+- `transactions.csv`: daily store-level transactions
+- `oil.csv`: external macro signal (oil price)
+- `holidays_events.csv`: holiday/event context
 
-## Business Recommendations
-- Prioritize inventory and staffing for top-performing stores and peak sales periods.
-- Build category-level promotional strategies for low-performing product families.
-- Use monthly and daily trend analysis to improve replenishment planning.
-- Iterate forecasting with richer features (holidays, promotions, local events) to improve accuracy.
-- Deploy outputs into Power BI for stakeholder-facing monitoring and decision support.
+## 🔍 Workflow
+1. Data cleaning  
+2. Feature engineering  
+3. Data merging  
+4. Analysis  
+5. Forecasting
 
-## Repository Structure
-- `data/`: raw and cleaned datasets
-- `scripts/`: Python pipeline (`retail_analysis.py`)
-- `outputs/`: generated analytics artifacts and forecasts
-- `outputs/charts/`: saved visualizations
-- `sql/`: reusable SQL analysis queries
+## 📊 Dashboard Preview
+![Dashboard](outputs/dashboard/dashboard.png)
 
-## How To Run
-From the project root:
+## 📈 Key Insights
+- Revenue trends over time:
+  - Sales show long-term growth with visible seasonality and periodic volatility.
+- High-performing stores:
+  - A subset of stores contributes a disproportionate share of total sales.
+- Sales patterns:
+  - Product family performance is highly concentrated, with top families driving most revenue.
 
+## 🔮 Forecasting
+Forecasting combines two complementary methods:
+- Linear Regression: captures long-term trend.
+- Rolling Average: captures short-term local behavior.
+
+The final prediction is a blended estimate across both signals for better practical stability.
+
+Why this is useful:
+- Provides a transparent, explainable baseline forecast.
+- Easy to communicate to business stakeholders.
+- Serves as a strong benchmark before advanced models (Prophet, XGBoost, ARIMA).
+
+## 💡 Business Recommendations
+- Where to invest:
+  - Prioritize high-performing stores with proven sales velocity.
+- What to optimize:
+  - Improve assortment and promotions in underperforming product families.
+- How to improve sales:
+  - Align inventory and campaigns with forecasted peaks and seasonality windows.
+
+## ⚙️ Tech Stack
+- Python
+- SQL
+- Power BI
+- Pandas
+- Matplotlib
+- Seaborn
+- Scikit-learn
+
+## 📂 Project Structure
+```text
+Sales_Analytics_&_Forecasting_Model/
+├── data/
+│   ├── raw/                   # Source Kaggle files (ignored in git)
+│   └── processed/             # Cleaned data outputs
+├── notebooks/                 # Optional exploratory notebooks
+├── outputs/
+│   ├── charts/                # Individual visualization files
+│   └── dashboard/             # Combined dashboard image
+├── scripts/
+│   └── retail_analysis.py     # Main production-style analytics pipeline
+├── sql/
+│   └── queries.sql            # Reusable analysis SQL queries
+├── requirements.txt
+└── README.md
+```
+
+## ▶️ How To Run
 ```bash
 python scripts/retail_analysis.py
 ```
 
-After execution, check:
-- `data/cleaned_retail_data.csv`
-- `outputs/charts/`
+Generated artifacts:
+- `data/processed/cleaned_retail_data.csv`
 - `outputs/forecast_actual_vs_predicted.csv`
-
-## Portfolio Value
-This project demonstrates practical skills in data engineering, analytical modeling, forecasting, SQL analytics, and business communication. It is designed to showcase an end-to-end data workflow suitable for analytics and business intelligence roles.
+- `outputs/charts/*.png`
+- `outputs/dashboard/dashboard.png`

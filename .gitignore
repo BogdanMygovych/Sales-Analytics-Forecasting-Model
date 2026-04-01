@@ -9,8 +9,8 @@ venv/
 .vscode/
 
 # Raw/large datasets (re-download from Kaggle)
-data/*.csv
-!data/.gitkeep
+data/**/*.csv
+!data/**/.gitkeep
 
 # Local logs
 *.log
