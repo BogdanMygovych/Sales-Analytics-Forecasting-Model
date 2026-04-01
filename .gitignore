@@ -1,0 +1,19 @@
+# Python caches and virtual environments
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# OS and editor artifacts
+.DS_Store
+.vscode/
+
+# Raw/large datasets (re-download from Kaggle)
+data/*.csv
+!data/.gitkeep
+
+# Local logs
+*.log
+
+# Optional: keep outputs generated reproducibly
+# outputs/
